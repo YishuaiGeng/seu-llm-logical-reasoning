@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 开放讨论与组会选题
+    url: https://github.com/YishuaiGeng/seu-llm-logical-reasoning/discussions
+    about: 交流问题、分享阅读线索或提出组会选题。

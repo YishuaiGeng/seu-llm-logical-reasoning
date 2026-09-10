@@ -1,0 +1,22 @@
+name: 文档错误 / 运行问题
+description: 报告错误、失效链接或教程运行问题。
+title: "[修正] "
+labels: [bug]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: 页面或文件位置
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题与预期行为
+      description: 涉及代码时，请提供复现步骤、环境和去除敏感信息的错误输出。
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: 修订建议与依据

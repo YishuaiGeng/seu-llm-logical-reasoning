@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-labelledby="title description">
+  <title id="title">SEU LLM Logical Reasoning</title>
+  <desc id="description">A shared knowledge base for logical reasoning in large language models.</desc>
+  <rect width="1280" height="360" rx="12" fill="#173d31"/>
+  <path d="M870 0V360M970 0V360M1070 0V360M1170 0V360M820 80H1280M820 180H1280M820 280H1280" stroke="#36564a" stroke-width="1"/>
+  <circle cx="68" cy="65" r="5" fill="#c5af7b"/>
+  <text x="86" y="71" fill="#d9e4c8" font-family="Arial,sans-serif" font-size="17" letter-spacing="3">SEU · SHARED KNOWLEDGE</text>
+  <text x="60" y="153" fill="#fffdf4" font-family="Georgia,serif" font-size="56">LLM Logical Reasoning</text>
+  <text x="63" y="208" fill="#c9d7c9" font-family="Arial,sans-serif" font-size="21">Foundations. Evidence. Practice. Together.</text>
+  <path d="M63 251H737" stroke="#527061"/>
+  <text x="63" y="294" fill="#b7c8b8" font-family="Arial,sans-serif" font-size="14" letter-spacing="2">NOTES / PAPERS / TUTORIALS / GROUP MEETINGS</text>
+  <rect x="880" y="57" width="310" height="245" rx="5" fill="#e9eddf" transform="rotate(-3 1035 180)"/>
+  <g transform="rotate(-3 1035 180)" fill="#234f3e" font-family="Georgia,serif">
+    <text x="918" y="124" font-size="31" font-style="italic">P → Q</text>
+    <text x="1120" y="124" font-size="31" font-style="italic">P</text>
+    <path d="M918 155H1150" stroke="#7f947e"/>
+    <text x="991" y="222" font-size="54" font-style="italic">∴ Q</text>
+    <text x="930" y="272" font-size="11" font-family="Arial,sans-serif" letter-spacing="2">PREMISE → PROOF → INSIGHT</text>
+  </g>
+</svg>

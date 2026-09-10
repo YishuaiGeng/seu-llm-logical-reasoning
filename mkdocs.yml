@@ -1,0 +1,109 @@
+site_name: SEU · Logical Reasoning
+site_description: 东南大学肖家军学习小组共建的大模型逻辑推理知识库。逻辑基础、论文共读、实践教程与组会记录。
+site_url: https://yishuaigeng.github.io/seu-llm-logical-reasoning/
+repo_url: https://github.com/YishuaiGeng/seu-llm-logical-reasoning
+repo_name: YishuaiGeng/seu-llm-logical-reasoning
+edit_uri: edit/main/docs/
+copyright: Copyright © 2026 SEU LLM Logical Reasoning contributors · 文档 CC BY 4.0 · 代码 MIT
+strict: true
+validation:
+  links:
+    not_found: warn
+    anchors: warn
+    unrecognized_links: warn
+theme:
+  name: material
+  custom_dir: overrides
+  language: zh
+  logo: assets/brand/mark.svg
+  favicon: assets/brand/mark.svg
+  font: false
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: 切换深色模式
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: 切换浅色模式
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.action.edit
+    - content.code.copy
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+hooks:
+  - scripts/site_hooks.py
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+extra_css:
+  - stylesheets/extra.css
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/YishuaiGeng/seu-llm-logical-reasoning
+      name: GitHub 仓库
+  generator: false
+nav:
+  - 首页: index.md
+  - 开始学习:
+      - getting-started/README.md
+      - 研究范围: getting-started/scope.md
+      - 阅读与验证方法: getting-started/reading-guide.md
+  - 主题笔记:
+      - notes/README.md
+      - 蕴涵、有效性与反例: notes/logic-foundations/implication-and-entailment.md
+  - 论文阅读: papers/README.md
+  - 实践教程:
+      - tutorials/README.md
+      - 用真值表检查推理: tutorials/truth-table.md
+      - 示例代码规范: tutorials/examples.md
+      - 真值表示例说明: tutorials/truth-table-example.md
+  - 组会记录: meetings/README.md
+  - 资源导航: resources/README.md
+  - 参与共建:
+      - community/index.md
+      - 贡献指南: community/contributing.md
+      - 内容模板:
+          - templates/README.md
+          - 学习笔记: templates/note.md
+          - 论文阅读: templates/paper.md
+          - 实践教程: templates/tutorial.md
+          - 组会记录: templates/meeting.md
+      - 许可与署名: community/license.md
+      - 行为准则: community/code-of-conduct.md
+      - 安全与隐私: community/security.md
+      - 维护与发布: community/maintenance.md
+      - 附件规范: assets/README.md

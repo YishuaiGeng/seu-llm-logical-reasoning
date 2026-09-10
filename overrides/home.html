@@ -1,0 +1,60 @@
+{% extends "main.html" %}
+{% block tabs %}{{ super() }}{% endblock %}
+{% block content %}
+<div class="lr-home">
+  <section class="lr-hero" aria-labelledby="seu">
+    <div class="lr-hero-copy">
+      <div class="lr-eyebrow"><span></span> SEU · LOGICAL REASONING</div>
+      <h1 id="seu">让推理有据可循，<br>让知识持续生长。</h1>
+      <p class="lr-hero-description">探索大模型如何理解前提、完成推导与验证结论。<br class="lr-desktop-break">从逻辑基础到论文共读，在记录、实践与讨论中积累理解。</p>
+      <div class="lr-actions">
+        <a class="lr-button lr-button-primary" href="{{ 'getting-started/' | url }}">开始学习 <span aria-hidden="true">↗</span></a>
+        <a class="lr-button lr-button-secondary" href="{{ 'community/' | url }}">参与共建 <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="lr-byline">东南大学 · 肖家军学习小组共建</p>
+    </div>
+    <div class="lr-proof" role="img" aria-label="肯定前件推理示意：由 P 蕴涵 Q 和 P 为真，推出 Q 为真。">
+      <div class="lr-proof-top"><span>REASONING NOTE / 001</span><span class="lr-proof-dot"></span></div>
+      <div class="lr-proof-label">从前提出发</div>
+      <div class="lr-proof-premises"><span>P → Q</span><span>P</span></div>
+      <div class="lr-proof-rule"><span>MODUS PONENS</span></div>
+      <div class="lr-proof-conclusion"><span>∴</span> Q</div>
+      <div class="lr-proof-bottom"><span>前提 · 推导 · 结论</span><span>01 — ∞</span></div>
+    </div>
+  </section>
+
+  <section class="lr-principles" aria-label="研究方法">
+    <div><span>01 / DEFINE</span><strong>明确问题</strong><p>定义任务、前提与推理类型。</p></div>
+    <div><span>02 / UNDERSTAND</span><strong>理解方法</strong><p>连接逻辑基础与模型机制。</p></div>
+    <div><span>03 / VERIFY</span><strong>检验证据</strong><p>检查过程、结果与适用边界。</p></div>
+    <div><span>04 / SHARE</span><strong>共同积累</strong><p>让笔记与讨论形成可追溯的知识。</p></div>
+  </section>
+
+  <section class="lr-section" aria-labelledby="explore-title">
+    <div class="lr-section-heading"><div><span class="lr-eyebrow">THE KNOWLEDGE COMMONS</span><h2 id="explore-title">沿着问题，找到入口。</h2></div><p>六个栏目，一份持续维护的研究记录。</p></div>
+    <div class="lr-card-grid">
+      {% for number, label, title, description, destination in [
+        ('01', 'FOUNDATIONS', '主题笔记', '从蕴涵与有效性出发，连接推理方法、训练机制与评测。', 'notes/'),
+        ('02', 'PAPER CLUB', '论文阅读', '围绕问题、方法、证据与局限，留下有判断的阅读记录。', 'papers/'),
+        ('03', 'HANDS-ON', '实践教程', '用可以运行的例子，把概念转化为可检查的结果。', 'tutorials/'),
+        ('04', 'GROUP MEETINGS', '组会记录', '整理汇报入口、讨论分歧和下一步行动，让问题有后续。', 'meetings/'),
+        ('05', 'READING LIST', '资源导航', '精选逻辑教材、论文检索入口与形式化工具。', 'resources/'),
+        ('06', 'CONTRIBUTE', '参与共建', '从一份笔记或一次修订开始，用模板和审阅共同维护。', 'community/')
+      ] %}
+      <a class="lr-card" href="{{ destination | url }}"><div class="lr-card-meta"><span>{{ number }} / {{ label }}</span><span aria-hidden="true">↗</span></div><h3>{{ title }}</h3><p>{{ description }}</p></a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="lr-feature" aria-labelledby="first-read-title">
+    <div class="lr-feature-heading"><span class="lr-eyebrow">START WITH A QUESTION</span><h2 id="first-read-title">答案正确，<br>推理就有效吗？</h2><p>第一组学习材料，从一个容易混淆的问题开始。</p></div>
+    <div class="lr-reading-list">
+      <a href="{{ 'notes/logic-foundations/implication-and-entailment/' | url }}"><span class="lr-reading-type">概念笔记 · 入门</span><h3>蕴涵、有效性与反例 <span aria-hidden="true">↗</span></h3><p>区分命题连接词与逻辑后承，理解反例为什么重要。</p></a>
+      <a href="{{ 'tutorials/truth-table/' | url }}"><span class="lr-reading-type">动手实践 · Python 标准库</span><h3>用真值表检查一个推理 <span aria-hidden="true">↗</span></h3><p>枚举赋值，验证肯定前件，并找到肯定后件的反例。</p></a>
+    </div>
+  </section>
+
+  <section class="lr-join"><div><span class="lr-eyebrow">A SHARED PRACTICE</span><h2>把今天的理解，留给明天的同伴。</h2><p>欢迎补充笔记、推荐论文、修订教程，也欢迎保留有依据的不同意见。</p></div><a class="lr-button lr-button-primary" href="{{ 'community/contributing/' | url }}">提交第一份笔记 <span aria-hidden="true">→</span></a></section>
+  <div class="lr-colophon"><span>课题组成员共建的学习与研究资料库</span><a href="{{ 'community/license/' | url }}">开放内容与署名约定 ↗</a></div>
+</div>
+{% endblock %}

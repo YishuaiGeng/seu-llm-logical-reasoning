@@ -1,0 +1,24 @@
+name: 内容建议 / 论文推荐
+description: 提议一个值得共同学习的问题、论文或教程。
+title: "[内容] "
+labels: [content]
+body:
+  - type: textarea
+    id: topic
+    attributes:
+      label: 主题与来源
+      description: 请描述想学习的内容，论文或资源请提供原始链接。
+    validations:
+      required: true
+  - type: textarea
+    id: relevance
+    attributes:
+      label: 与逻辑推理的关系
+      description: 为什么值得收录？你希望解决什么问题？
+    validations:
+      required: true
+  - type: textarea
+    id: contribution
+    attributes:
+      label: 参与方式
+      description: 是否愿意阅读、整理或汇报？不确定也可以直接说明。

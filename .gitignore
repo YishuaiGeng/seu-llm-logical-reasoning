@@ -1,0 +1,43 @@
+# Local system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated sites, dependencies and experiment outputs
+site/
+node_modules/
+outputs/
+runs/
+checkpoints/
+wandb/
+*.log
+
+# Model weights
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.gguf
+
+# Local browser artifacts
+output/
+.playwright-cli/
