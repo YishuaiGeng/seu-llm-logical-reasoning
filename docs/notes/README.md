@@ -6,4 +6,4 @@
 
 ## 新增一篇笔记
 
-复制[学习笔记模板](../../templates/note.md)，保存到对应主题目录，例如 `docs/notes/reasoning-methods/self-consistency.md`。本页索引、导航和学习路线会根据 frontmatter 自动更新。尚无笔记的主题正等待贡献，不表示已有对应综述。
+复制[学习笔记模板](../../templates/note.md)，保存到对应主题目录，例如 `docs/notes/reasoning-methods/self-consistency.md`。本页索引、导航和学习路线会根据 frontmatter 自动更新。标记“正在整理中”的主题尚无笔记。

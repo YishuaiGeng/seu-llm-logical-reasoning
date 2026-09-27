@@ -2,7 +2,7 @@
 title: 可满足性、有效性与等价
 type: note
 authors: [SEU LLM Logical Reasoning contributors]
-status: review
+status: stable
 created: 2026-09-27
 stage: logic
 order: 2
