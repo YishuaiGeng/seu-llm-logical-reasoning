@@ -1,0 +1,38 @@
+{#- 评论区：giscus 将每个页面的评论保存为仓库 Discussions 中的一条讨论。 -#}
+{% set giscus = config.extra.giscus %}
+{% if page.meta.comments and giscus %}
+  <section class="lr-comments" aria-labelledby="__comments">
+    <h2 id="__comments">讨论与评论</h2>
+    <p class="lr-comments__hint">使用 GitHub 账号登录后参与讨论，评论同步保存在仓库 <a href="{{ config.repo_url }}/discussions">Discussions</a>。发现明确错误时，也欢迎直接<a href="{{ page.edit_url or config.repo_url }}">编辑本页</a>或提交 Issue。</p>
+    <script src="https://giscus.app/client.js"
+      data-repo="{{ giscus.repo }}"
+      data-repo-id="{{ giscus.repo_id }}"
+      data-category="{{ giscus.category }}"
+      data-category-id="{{ giscus.category_id }}"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="noborder_light"
+      data-lang="zh-CN"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async>
+    </script>
+    <script>
+      (function () {
+        var themes = { default: "noborder_light", slate: "transparent_dark" }
+        function scheme() {
+          return document.body.getAttribute("data-md-color-scheme") === "slate" ? "slate" : "default"
+        }
+        document.querySelector("script[src*='giscus.app']").setAttribute("data-theme", themes[scheme()])
+        new MutationObserver(function () {
+          var frame = document.querySelector("iframe.giscus-frame")
+          if (frame) frame.contentWindow.postMessage(
+            { giscus: { setConfig: { theme: themes[scheme()] } } }, "https://giscus.app")
+        }).observe(document.body, { attributes: true, attributeFilter: ["data-md-color-scheme"] })
+      })()
+    </script>
+  </section>
+{% endif %}

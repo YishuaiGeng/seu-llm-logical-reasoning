@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: 引用本知识库时，请同时注明具体页面标题、链接与访问日期或提交哈希。
+title: SEU 大模型逻辑推理知识库 (SEU LLM Logical Reasoning Knowledge Base)
+type: dataset
+authors:
+  - name: SEU LLM Logical Reasoning contributors
+repository-code: https://github.com/YishuaiGeng/seu-llm-logical-reasoning
+url: https://yishuaigeng.github.io/seu-llm-logical-reasoning/
+license: CC-BY-4.0
+keywords:
+  - large language models
+  - logical reasoning
+  - knowledge base

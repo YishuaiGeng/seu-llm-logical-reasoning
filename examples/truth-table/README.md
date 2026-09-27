@@ -1,4 +1,4 @@
-# Truth-table entailment example
+# 真值表与逻辑后承示例
 
 一个仅使用 Python 标准库的教学示例，演示经典命题逻辑中的语义后承、反例与前提可满足性。
 

@@ -23,9 +23,16 @@
 | 资源 | 适合用途 |
 | --- | --- |
 | [Z3](https://github.com/Z3Prover/z3) | SMT 求解与形式化约束检查 |
+| [Z3 Guide](https://microsoft.github.io/z3guide/) | Z3 官方交互式教程，配合[Z3 教程](../tutorials/z3-validity.md)使用 |
 | [Lean](https://lean-lang.org/) | 交互式定理证明与形式化数学 |
 
 这些工具服务于不同任务，不能把“工具验证通过”直接等同于任意自然语言推理都可靠。使用前应理解输入形式、逻辑理论与验证边界。
+
+## 站内工具
+
+- [术语表](glossary.md)：中英对照的核心术语与译名约定。
+- [标签索引](../tags.md)：按主题浏览全部内容。
+- [候选论文](../papers/README.md#candidates)：待认领的核心论文清单。
 
 ## 推荐新资源
 

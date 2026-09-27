@@ -1,10 +1,10 @@
-site_name: SEU · Logical Reasoning
+site_name: SEU 大模型逻辑推理知识库
 site_description: 东南大学肖家军学习小组共建的大模型逻辑推理知识库。逻辑基础、论文共读、实践教程与组会记录。
 site_url: https://yishuaigeng.github.io/seu-llm-logical-reasoning/
 repo_url: https://github.com/YishuaiGeng/seu-llm-logical-reasoning
 repo_name: YishuaiGeng/seu-llm-logical-reasoning
 edit_uri: edit/main/docs/
-copyright: Copyright © 2026 SEU LLM Logical Reasoning contributors · 文档 CC BY 4.0 · 代码 MIT
+copyright: Copyright © 2026 SEU LLM Logical Reasoning contributors · 文档 CC BY 4.0 · 代码 MIT · 东南大学校徽版权归东南大学所有
 strict: true
 validation:
   links:
@@ -15,8 +15,8 @@ theme:
   name: material
   custom_dir: overrides
   language: zh
-  logo: assets/brand/mark.svg
-  favicon: assets/brand/mark.svg
+  logo: assets/brand/seu-emblem.png
+  favicon: assets/brand/favicon.png
   font: false
   icon:
     repo: fontawesome/brands/github
@@ -39,60 +39,126 @@ theme:
     - navigation.tabs
     - navigation.sections
     - navigation.indexes
+    - navigation.path
     - navigation.top
     - navigation.footer
+    - navigation.tracking
+    - toc.follow
     - search.suggest
     - search.highlight
+    - search.share
     - content.action.edit
     - content.code.copy
+    - content.code.annotate
+    - content.tooltips
+    - content.footnote.tooltips
 plugins:
   - search:
       lang:
         - zh
         - en
+  - tags
 hooks:
   - scripts/site_hooks.py
 markdown_extensions:
+  - abbr
   - admonition
   - attr_list
+  - def_list
+  - footnotes
   - md_in_html
   - tables
   - toc:
       permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.arithmatex:
+      generic: true
   - pymdownx.details
-  - pymdownx.superfences
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
+  - pymdownx.mark
+  - pymdownx.snippets:
+      base_path: [.]
+      auto_append:
+        - includes/abbreviations.md
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true
 extra_css:
+  - javascripts/vendor/katex/katex.min.css
   - stylesheets/extra.css
+extra_javascript:
+  - javascripts/katex.js
+  - javascripts/vendor/katex/katex.min.js
+  - javascripts/vendor/katex/contrib/auto-render.min.js
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/YishuaiGeng/seu-llm-logical-reasoning
       name: GitHub 仓库
   generator: false
+  # 评论区：giscus 读写仓库 Discussions。更换分类时同时更新名称与 ID。
+  giscus:
+    repo: YishuaiGeng/seu-llm-logical-reasoning
+    repo_id: R_kgDOUUcAZA
+    category: Announcements
+    category_id: DIC_kwDOUUcAZM4DFR_k
+  # 知识结构：主题目录决定笔记分组，学习阶段由页面 frontmatter 的 stage 字段引用。
+  knowledge:
+    topics:
+      - id: logic-foundations
+        title: 逻辑基础
+        summary: 命题与谓词逻辑、有效性与可满足性、演绎归纳溯因。
+      - id: reasoning-methods
+        title: 推理方法
+        summary: 提示与中间步骤、多次采样、搜索、工具与符号求解器。
+      - id: training-verification
+        title: 训练与验证
+        summary: 监督微调、结果与过程反馈、奖励与验证器。
+      - id: evaluation
+        title: 评测分析
+        summary: 基准与任务定义、泄漏与记忆、扰动一致性、错误分类。
+    stages:
+      - id: logic
+        title: 逻辑基础
+        summary: 命题与谓词、有效性与可满足性、演绎归纳溯因；辨别有效推导与经验上可信的判断。
+      - id: llm
+        title: 大模型基础
+        summary: 自回归生成、提示、上下文学习；理解模型生成的解释与形式证明的差别。
+      - id: methods
+        title: 推理方法
+        summary: 中间推理步骤、多次采样、搜索、工具与符号求解器；比较各自提供的额外机制。
+      - id: training
+        title: 训练与验证
+        summary: 监督微调、结果与过程反馈、验证器；判断奖励或评分是否对应任务目标。
+      - id: evaluation
+        title: 评测实践
+        summary: 任务定义、数据划分、泄漏与记忆、扰动一致性、证明检查与误差分析。
+# 导航只列固定页面；笔记、论文、教程和组会的子页面由 scripts/site_hooks.py 按目录自动展开。
 nav:
   - 首页: index.md
   - 开始学习:
       - getting-started/README.md
       - 研究范围: getting-started/scope.md
       - 阅读与验证方法: getting-started/reading-guide.md
-  - 主题笔记:
-      - notes/README.md
-      - 蕴涵、有效性与反例: notes/logic-foundations/implication-and-entailment.md
+  - 主题笔记: notes/README.md
   - 论文阅读: papers/README.md
-  - 实践教程:
-      - tutorials/README.md
-      - 用真值表检查推理: tutorials/truth-table.md
-      - 示例代码规范: tutorials/examples.md
-      - 真值表示例说明: tutorials/truth-table-example.md
+  - 实践教程: tutorials/README.md
   - 组会记录: meetings/README.md
-  - 资源导航: resources/README.md
+  - 资源导航:
+      - resources/README.md
+      - 术语表: resources/glossary.md
+      - 标签索引: tags.md
   - 参与共建:
       - community/index.md
       - 贡献指南: community/contributing.md

@@ -1,11 +1,22 @@
+---
+title: 〈教程标题：完成一个明确任务〉
+type: tutorial
+authors: [〈姓名〉]
+contributors: []
+status: draft          # draft 草稿 / review 待审阅 / stable 已整理
+created: 2026-01-01    # 〈YYYY-MM-DD〉
+stage: logic           # 学习阶段：logic / llm / methods / training / evaluation
+tags: [〈主题〉]
+summary: 〈一句话说明完成后能做什么〉
+difficulty: 入门       # 入门 / 进阶 / 高级
+environment: 〈Python 3.10+ · 依赖〉
+verified: unverified   # unverified 未验证 / partial 部分验证 / verified 已验证
+verified_on: 〈实际验证日期与环境；未验证时删除本行〉
+---
+
 # 〈教程标题：完成一个明确任务〉
 
-- 作者：〈姓名〉
-- 更新日期：〈YYYY-MM-DD〉
-- 验证状态：〈未验证 / 部分验证 / 已验证〉
-- 验证日期与环境：〈实际记录；未验证时写不适用〉
-- 适用读者：〈基础要求〉
-- 配套代码：〈相对链接 / 无〉
+配套代码：〈相对链接 / 无〉
 
 ## 学习目标
 

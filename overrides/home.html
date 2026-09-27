@@ -1,60 +1,136 @@
 {% extends "main.html" %}
 {% block tabs %}{{ super() }}{% endblock %}
 {% block content %}
+{% set catalog = config.extra.catalog %}
+{% set counts = catalog.counts %}
+{% set issues = config.repo_url ~ '/issues?q=is%3Aopen+label%3A%22good+first+issue%22' %}
 <div class="lr-home">
-  <section class="lr-hero" aria-labelledby="seu">
+  <section class="lr-hero" aria-labelledby="lr-hero-title">
     <div class="lr-hero-copy">
-      <div class="lr-eyebrow"><span></span> SEU · LOGICAL REASONING</div>
-      <h1 id="seu">让推理有据可循，<br>让知识持续生长。</h1>
+      <div class="lr-eyebrow"><span class="lr-dot"></span>东南大学 · 肖家军学习小组</div>
+      <h1 id="lr-hero-title">让推理有据可循，<br>让知识持续生长。</h1>
       <p class="lr-hero-description">探索大模型如何理解前提、完成推导与验证结论。<br class="lr-desktop-break">从逻辑基础到论文共读，在记录、实践与讨论中积累理解。</p>
       <div class="lr-actions">
         <a class="lr-button lr-button-primary" href="{{ 'getting-started/' | url }}">开始学习 <span aria-hidden="true">↗</span></a>
         <a class="lr-button lr-button-secondary" href="{{ 'community/' | url }}">参与共建 <span aria-hidden="true">→</span></a>
       </div>
-      <p class="lr-byline">东南大学 · 肖家军学习小组共建</p>
+      <dl class="lr-stats" aria-label="知识库概况">
+        <div><dt>主题笔记</dt><dd>{{ counts.note }}</dd></div>
+        <div><dt>论文精读</dt><dd>{{ counts.paper }}</dd></div>
+        <div><dt>实践教程</dt><dd>{{ counts.tutorial }}</dd></div>
+        <div><dt>组会记录</dt><dd>{{ counts.meeting }}</dd></div>
+        <div><dt>贡献者</dt><dd>{{ catalog.contributors }}</dd></div>
+      </dl>
     </div>
     <div class="lr-proof" role="img" aria-label="肯定前件推理示意：由 P 蕴涵 Q 和 P 为真，推出 Q 为真。">
-      <div class="lr-proof-top"><span>REASONING NOTE / 001</span><span class="lr-proof-dot"></span></div>
+      <div class="lr-proof-top"><span>推理笔记 · No.001</span><span class="lr-dot"></span></div>
       <div class="lr-proof-label">从前提出发</div>
       <div class="lr-proof-premises"><span>P → Q</span><span>P</span></div>
-      <div class="lr-proof-rule"><span>MODUS PONENS</span></div>
+      <div class="lr-proof-rule"><span>肯定前件 · MODUS PONENS</span></div>
       <div class="lr-proof-conclusion"><span>∴</span> Q</div>
       <div class="lr-proof-bottom"><span>前提 · 推导 · 结论</span><span>01 — ∞</span></div>
     </div>
   </section>
 
   <section class="lr-principles" aria-label="研究方法">
-    <div><span>01 / DEFINE</span><strong>明确问题</strong><p>定义任务、前提与推理类型。</p></div>
-    <div><span>02 / UNDERSTAND</span><strong>理解方法</strong><p>连接逻辑基础与模型机制。</p></div>
-    <div><span>03 / VERIFY</span><strong>检验证据</strong><p>检查过程、结果与适用边界。</p></div>
-    <div><span>04 / SHARE</span><strong>共同积累</strong><p>让笔记与讨论形成可追溯的知识。</p></div>
+    <div><span>01 · 定义</span><strong>明确问题</strong><p>定义任务、前提与推理类型。</p></div>
+    <div><span>02 · 理解</span><strong>理解方法</strong><p>连接逻辑基础与模型机制。</p></div>
+    <div><span>03 · 检验</span><strong>检验证据</strong><p>检查过程、结果与适用边界。</p></div>
+    <div><span>04 · 共享</span><strong>共同积累</strong><p>让笔记与讨论形成可追溯的知识。</p></div>
   </section>
 
   <section class="lr-section" aria-labelledby="explore-title">
-    <div class="lr-section-heading"><div><span class="lr-eyebrow">THE KNOWLEDGE COMMONS</span><h2 id="explore-title">沿着问题，找到入口。</h2></div><p>六个栏目，一份持续维护的研究记录。</p></div>
+    <div class="lr-section-heading">
+      <div><span class="lr-eyebrow">知识栏目 · THE COMMONS</span><h2 id="explore-title">沿着问题，找到入口。</h2></div>
+      <p>六个栏目，一份持续维护的研究记录。</p>
+    </div>
     <div class="lr-card-grid">
-      {% for number, label, title, description, destination in [
-        ('01', 'FOUNDATIONS', '主题笔记', '从蕴涵与有效性出发，连接推理方法、训练机制与评测。', 'notes/'),
-        ('02', 'PAPER CLUB', '论文阅读', '围绕问题、方法、证据与局限，留下有判断的阅读记录。', 'papers/'),
-        ('03', 'HANDS-ON', '实践教程', '用可以运行的例子，把概念转化为可检查的结果。', 'tutorials/'),
-        ('04', 'GROUP MEETINGS', '组会记录', '整理汇报入口、讨论分歧和下一步行动，让问题有后续。', 'meetings/'),
-        ('05', 'READING LIST', '资源导航', '精选逻辑教材、论文检索入口与形式化工具。', 'resources/'),
-        ('06', 'CONTRIBUTE', '参与共建', '从一份笔记或一次修订开始，用模板和审阅共同维护。', 'community/')
+      {% for number, label, title, description, destination, count in [
+        ('01', 'FOUNDATIONS', '主题笔记', '从蕴涵与有效性出发，连接推理方法、训练机制与评测。', 'notes/', counts.note),
+        ('02', 'PAPER CLUB', '论文阅读', '围绕问题、方法、证据与局限，留下有判断的阅读记录。', 'papers/', counts.paper),
+        ('03', 'HANDS-ON', '实践教程', '用可以运行的例子，把概念转化为可检查的结果。', 'tutorials/', counts.tutorial),
+        ('04', 'MEETINGS', '组会记录', '整理汇报入口、讨论分歧和下一步行动，让问题有后续。', 'meetings/', counts.meeting),
+        ('05', 'RESOURCES', '资源导航', '精选逻辑教材、论文检索入口、形式化工具与术语表。', 'resources/', none),
+        ('06', 'CONTRIBUTE', '参与共建', '从一份笔记或一次修订开始，用模板和审阅共同维护。', 'community/', none)
       ] %}
-      <a class="lr-card" href="{{ destination | url }}"><div class="lr-card-meta"><span>{{ number }} / {{ label }}</span><span aria-hidden="true">↗</span></div><h3>{{ title }}</h3><p>{{ description }}</p></a>
+      <a class="lr-card" href="{{ destination | url }}">
+        <div class="lr-card-meta"><span>{{ number }} · {{ label }}</span><span aria-hidden="true">↗</span></div>
+        <h3>{{ title }}</h3>
+        <p>{{ description }}</p>
+        {% if count is not none %}
+        <div class="lr-card-count {% if count == 0 %}lr-card-count--empty{% endif %}">{% if count %}{{ count }} 篇{% else %}等待第一篇贡献{% endif %}</div>
+        {% endif %}
+      </a>
       {% endfor %}
     </div>
   </section>
 
+  <section class="lr-path" aria-labelledby="path-title">
+    <div class="lr-section-heading">
+      <div><span class="lr-eyebrow">学习路线 · LEARNING PATH</span><h2 id="path-title">五个阶段，由浅入深。</h2></div>
+      <p><a href="{{ 'getting-started/' | url }}#learning-path">查看完整路线 →</a></p>
+    </div>
+    <ol class="lr-path-steps">
+      {% for stage in catalog.stages %}
+      <li class="{% if stage.count %}is-ready{% endif %}">
+        <span class="lr-path-index">{{ '%02d' % loop.index }}</span>
+        <strong>{{ stage.title }}</strong>
+        <span class="lr-path-count">{% if stage.count %}{{ stage.count }} 篇材料{% else %}待认领{% endif %}</span>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
   <section class="lr-feature" aria-labelledby="first-read-title">
-    <div class="lr-feature-heading"><span class="lr-eyebrow">START WITH A QUESTION</span><h2 id="first-read-title">答案正确，<br>推理就有效吗？</h2><p>第一组学习材料，从一个容易混淆的问题开始。</p></div>
+    <div class="lr-feature-heading">
+      <span class="lr-eyebrow">从一个问题开始</span>
+      <h2 id="first-read-title">答案正确，<br>推理就有效吗？</h2>
+      <p>第一组学习材料，从一个容易混淆的问题开始。</p>
+    </div>
     <div class="lr-reading-list">
       <a href="{{ 'notes/logic-foundations/implication-and-entailment/' | url }}"><span class="lr-reading-type">概念笔记 · 入门</span><h3>蕴涵、有效性与反例 <span aria-hidden="true">↗</span></h3><p>区分命题连接词与逻辑后承，理解反例为什么重要。</p></a>
       <a href="{{ 'tutorials/truth-table/' | url }}"><span class="lr-reading-type">动手实践 · Python 标准库</span><h3>用真值表检查一个推理 <span aria-hidden="true">↗</span></h3><p>枚举赋值，验证肯定前件，并找到肯定后件的反例。</p></a>
+      <a href="{{ 'tutorials/z3-validity/' | url }}"><span class="lr-reading-type">动手实践 · Z3 求解器</span><h3>用 Z3 检查有效性与反例 <span aria-hidden="true">↗</span></h3><p>把“有效”转化为“否定结论后不可满足”，扩展到一阶逻辑。</p></a>
     </div>
   </section>
 
-  <section class="lr-join"><div><span class="lr-eyebrow">A SHARED PRACTICE</span><h2>把今天的理解，留给明天的同伴。</h2><p>欢迎补充笔记、推荐论文、修订教程，也欢迎保留有依据的不同意见。</p></div><a class="lr-button lr-button-primary" href="{{ 'community/contributing/' | url }}">提交第一份笔记 <span aria-hidden="true">→</span></a></section>
-  <div class="lr-colophon"><span>课题组成员共建的学习与研究资料库</span><a href="{{ 'community/license/' | url }}">开放内容与署名约定 ↗</a></div>
+  {% if catalog.recent %}
+  <section class="lr-section" aria-labelledby="recent-title">
+    <div class="lr-section-heading">
+      <div><span class="lr-eyebrow">最近更新 · RECENTLY UPDATED</span><h2 id="recent-title">知识库的最新进展。</h2></div>
+      <p><a href="{{ 'tags/' | url }}">按标签浏览 →</a></p>
+    </div>
+    <ul class="lr-recent">
+      {% for item in catalog.recent %}
+      <li><a href="{{ item.url | url }}">
+        <span class="lr-recent-type">{{ item.label }}</span>
+        <span class="lr-recent-title">{{ item.title }}</span>
+        <span class="lr-recent-summary">{{ item.summary }}</span>
+        <time>{{ item.updated }}</time>
+      </a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  <section class="lr-join" aria-labelledby="join-title">
+    <div>
+      <span class="lr-eyebrow">共同实践 · A SHARED PRACTICE</span>
+      <h2 id="join-title">把今天的理解，留给明天的同伴。</h2>
+      <p>欢迎补充笔记、推荐论文、修订教程，也欢迎保留有依据的不同意见。</p>
+    </div>
+    <div class="lr-join-actions">
+      <a class="lr-button lr-button-primary" href="{{ 'community/contributing/' | url }}">提交第一份笔记 <span aria-hidden="true">→</span></a>
+      <a class="lr-button lr-button-secondary" href="{{ issues }}">认领一个选题 <span aria-hidden="true">↗</span></a>
+      <a class="lr-button lr-button-secondary" href="{{ config.repo_url }}/discussions">参与讨论 <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+
+  <div class="lr-colophon">
+    <div class="lr-colophon-brand">
+      <span>肖家军学习小组 · 课题组成员共建的学习与研究资料库</span>
+    </div>
+    <a href="{{ 'community/license/' | url }}">开放内容与署名约定 ↗</a>
+  </div>
 </div>
 {% endblock %}
