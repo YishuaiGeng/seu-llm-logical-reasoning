@@ -30,6 +30,7 @@ GUIDES = {
     "CODE_OF_CONDUCT.md": "community/code-of-conduct.md",
     "SECURITY.md": "community/security.md",
     "PROJECT_PLAN.md": "community/maintenance.md",
+    "CHANGELOG.md": "community/changelog.md",
     "examples/README.md": "tutorials/examples/index.md",
     "templates/README.md": "templates/README.md",
 }
@@ -106,24 +107,22 @@ def as_list(value):
 
 
 def git_history():
-    """Map repository paths to (created, updated) dates and count authors."""
+    """Map repository paths to their (created, updated) commit dates."""
     try:
         log = subprocess.run(
-            ["git", "log", "--format=@%cs|%an", "--name-only", "--no-renames"],
+            ["git", "log", "--format=@%cs", "--name-only", "--no-renames"],
             cwd=ROOT, capture_output=True, text=True, check=True,
         ).stdout
     except (OSError, subprocess.CalledProcessError):
-        return {}, 0
-    dates, authors, current = {}, set(), None
+        return {}
+    dates, current = {}, None
     for line in log.splitlines():
         if line.startswith("@"):
-            day, _, author = line[1:].partition("|")
-            current = as_date(day)
-            authors.add(author)
+            current = as_date(line[1:])
         elif line and current:
             created, updated = dates.get(line, (current, current))
             dates[line] = (min(created, current), max(updated, current))
-    return dates, len(authors)
+    return dates
 
 
 def reading_minutes(markdown):
@@ -202,7 +201,7 @@ def on_page_markdown(markdown, page, config, files):
 
 def build_catalog(files, config):
     CATALOG.clear()
-    dates, contributors = git_history()
+    dates = git_history()
     for file in files.documentation_pages():
         section = file.src_uri.split("/", 1)[0]
         if section not in CONTENT_TYPES or Path(file.src_uri).name in {"README.md", "index.md"}:
@@ -228,7 +227,6 @@ def build_catalog(files, config):
     stages = config["extra"].get("knowledge", {}).get("stages", [])
     config["extra"]["catalog"] = {
         "counts": {kind: sum(e["type"] == kind for e in entries) for kind in TYPE_LABELS},
-        "contributors": contributors,
         "recent": [{
             "title": e["title"], "url": e["url"], "label": TYPE_LABELS[e["type"]],
             "summary": e["meta"].get("summary", ""),
@@ -443,16 +441,16 @@ def render_index(section, page, config):
                     f"| {link(e)} | {e['meta'].get('summary', '')} | {status(e)} |\n" for e in rows)
             else:
                 template = relative_md("templates/note.md", page.file.src_uri)
-                blocks[-1] += f"尚无笔记。欢迎{claim}，或使用[学习笔记模板]({template})开始一篇。\n"
+                blocks[-1] += f"本主题的笔记正在整理中，可{claim}或使用[学习笔记模板]({template})撰写。\n"
         return "\n".join(blocks)
 
     if not entries:
         empty = {
-            "paper": "首批精读笔记正在等待成员贡献。",
+            "paper": "论文精读笔记正在整理中。",
             "meeting": "当前尚未归档公开的组会记录。",
-            "tutorial": "暂无教程。",
+            "tutorial": "教程正在整理中。",
         }[kind]
-        return f'!!! note "尚无内容"\n\n    {empty}新增文件并填写 frontmatter 后，本表会自动更新。\n'
+        return f'!!! note "尚无内容"\n\n    {empty}新增内容后本表自动更新。\n'
 
     if kind == "paper":
         rows = sorted(entries, key=lambda e: (event_date(e) or dt.date.min, e["title"]), reverse=True)
@@ -479,7 +477,7 @@ def render_roadmap(page, config):
         links = "".join(
             f'<li><a href="{esc(relative_url(e["url"], page.url))}"><span>{TYPE_LABELS[e["type"]]}</span>{esc(e["title"])}</a></li>'
             for e in entries
-        ) or f'<li class="lr-roadmap__empty"><a href="{ISSUES}?q=is%3Aopen+label%3A%22good+first+issue%22">待认领 · 欢迎贡献第一篇</a></li>'
+        ) or f'<li class="lr-roadmap__empty"><a href="{ISSUES}?q=is%3Aopen+label%3A%22good+first+issue%22">内容建设中 · 可认领撰写</a></li>'
         state = "lr-roadmap__stage--ready" if entries else ""
         items.append(
             f'<li class="lr-roadmap__stage {state}"><div class="lr-roadmap__marker">{number:02d}</div>'

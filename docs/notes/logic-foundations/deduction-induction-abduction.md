@@ -2,7 +2,7 @@
 title: 演绎、归纳与溯因
 type: note
 authors: [SEU LLM Logical Reasoning contributors]
-status: review
+status: stable
 created: 2026-09-27
 stage: logic
 order: 3

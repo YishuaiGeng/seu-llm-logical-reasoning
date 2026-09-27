@@ -7,7 +7,7 @@
 <div class="lr-home">
   <section class="lr-hero" aria-labelledby="lr-hero-title">
     <div class="lr-hero-copy">
-      <div class="lr-eyebrow"><span class="lr-dot"></span>东南大学 · 肖家军学习小组</div>
+      <div class="lr-eyebrow"><span class="lr-dot"></span>东南大学 · 大模型逻辑推理学习小组</div>
       <h1 id="lr-hero-title">让推理有据可循，<br>让知识持续生长。</h1>
       <p class="lr-hero-description">探索大模型如何理解前提、完成推导与验证结论。<br class="lr-desktop-break">从逻辑基础到论文共读，在记录、实践与讨论中积累理解。</p>
       <div class="lr-actions">
@@ -15,20 +15,19 @@
         <a class="lr-button lr-button-secondary" href="{{ 'community/' | url }}">参与共建 <span aria-hidden="true">→</span></a>
       </div>
       <dl class="lr-stats" aria-label="知识库概况">
-        <div><dt>主题笔记</dt><dd>{{ counts.note }}</dd></div>
-        <div><dt>论文精读</dt><dd>{{ counts.paper }}</dd></div>
-        <div><dt>实践教程</dt><dd>{{ counts.tutorial }}</dd></div>
-        <div><dt>组会记录</dt><dd>{{ counts.meeting }}</dd></div>
-        <div><dt>贡献者</dt><dd>{{ catalog.contributors }}</dd></div>
+        {% for label, value in [('主题笔记', counts.note), ('论文精读', counts.paper), ('实践教程', counts.tutorial), ('组会记录', counts.meeting)] if value %}
+        <div><dt>{{ label }}</dt><dd>{{ value }}</dd></div>
+        {% endfor %}
+        <div><dt>学习阶段</dt><dd>{{ catalog.stages | length }}</dd></div>
       </dl>
     </div>
     <div class="lr-proof" role="img" aria-label="肯定前件推理示意：由 P 蕴涵 Q 和 P 为真，推出 Q 为真。">
-      <div class="lr-proof-top"><span>推理笔记 · No.001</span><span class="lr-dot"></span></div>
+      <div class="lr-proof-top"><span>推理示例 · 经典命题逻辑</span><span class="lr-dot"></span></div>
       <div class="lr-proof-label">从前提出发</div>
       <div class="lr-proof-premises"><span>P → Q</span><span>P</span></div>
       <div class="lr-proof-rule"><span>肯定前件 · MODUS PONENS</span></div>
       <div class="lr-proof-conclusion"><span>∴</span> Q</div>
-      <div class="lr-proof-bottom"><span>前提 · 推导 · 结论</span><span>01 — ∞</span></div>
+      <div class="lr-proof-bottom"><span>前提 · 推导 · 结论</span><span>有效推理</span></div>
     </div>
   </section>
 
@@ -41,14 +40,14 @@
 
   <section class="lr-section" aria-labelledby="explore-title">
     <div class="lr-section-heading">
-      <div><span class="lr-eyebrow">知识栏目 · THE COMMONS</span><h2 id="explore-title">沿着问题，找到入口。</h2></div>
+      <div><span class="lr-eyebrow">知识栏目 · SECTIONS</span><h2 id="explore-title">沿着问题，找到入口。</h2></div>
       <p>六个栏目，一份持续维护的研究记录。</p>
     </div>
     <div class="lr-card-grid">
       {% for number, label, title, description, destination, count in [
-        ('01', 'FOUNDATIONS', '主题笔记', '从蕴涵与有效性出发，连接推理方法、训练机制与评测。', 'notes/', counts.note),
-        ('02', 'PAPER CLUB', '论文阅读', '围绕问题、方法、证据与局限，留下有判断的阅读记录。', 'papers/', counts.paper),
-        ('03', 'HANDS-ON', '实践教程', '用可以运行的例子，把概念转化为可检查的结果。', 'tutorials/', counts.tutorial),
+        ('01', 'NOTES', '主题笔记', '从蕴涵与有效性出发，连接推理方法、训练机制与评测。', 'notes/', counts.note),
+        ('02', 'PAPERS', '论文阅读', '围绕问题、方法、证据与局限，形成可核实的阅读记录。', 'papers/', counts.paper),
+        ('03', 'TUTORIALS', '实践教程', '用可以运行的例子，把概念转化为可检查的结果。', 'tutorials/', counts.tutorial),
         ('04', 'MEETINGS', '组会记录', '整理汇报入口、讨论分歧和下一步行动，让问题有后续。', 'meetings/', counts.meeting),
         ('05', 'RESOURCES', '资源导航', '精选逻辑教材、论文检索入口、形式化工具与术语表。', 'resources/', none),
         ('06', 'CONTRIBUTE', '参与共建', '从一份笔记或一次修订开始，用模板和审阅共同维护。', 'community/', none)
@@ -58,7 +57,7 @@
         <h3>{{ title }}</h3>
         <p>{{ description }}</p>
         {% if count is not none %}
-        <div class="lr-card-count {% if count == 0 %}lr-card-count--empty{% endif %}">{% if count %}{{ count }} 篇{% else %}等待第一篇贡献{% endif %}</div>
+        <div class="lr-card-count {% if count == 0 %}lr-card-count--empty{% endif %}">{% if count %}{{ count }} 篇{% else %}内容建设中{% endif %}</div>
         {% endif %}
       </a>
       {% endfor %}
@@ -75,7 +74,7 @@
       <li class="{% if stage.count %}is-ready{% endif %}">
         <span class="lr-path-index">{{ '%02d' % loop.index }}</span>
         <strong>{{ stage.title }}</strong>
-        <span class="lr-path-count">{% if stage.count %}{{ stage.count }} 篇材料{% else %}待认领{% endif %}</span>
+        <span class="lr-path-count">{% if stage.count %}{{ stage.count }} 篇材料{% else %}内容建设中{% endif %}</span>
       </li>
       {% endfor %}
     </ol>
@@ -115,20 +114,20 @@
 
   <section class="lr-join" aria-labelledby="join-title">
     <div>
-      <span class="lr-eyebrow">共同实践 · A SHARED PRACTICE</span>
-      <h2 id="join-title">把今天的理解，留给明天的同伴。</h2>
-      <p>欢迎补充笔记、推荐论文、修订教程，也欢迎保留有依据的不同意见。</p>
+      <span class="lr-eyebrow">参与共建 · CONTRIBUTE</span>
+      <h2 id="join-title">由组内成员共同维护。</h2>
+      <p>补充笔记、撰写论文精读、修订教程，或对已有内容提出有依据的意见。</p>
     </div>
     <div class="lr-join-actions">
-      <a class="lr-button lr-button-primary" href="{{ 'community/contributing/' | url }}">提交第一份笔记 <span aria-hidden="true">→</span></a>
-      <a class="lr-button lr-button-secondary" href="{{ issues }}">认领一个选题 <span aria-hidden="true">↗</span></a>
+      <a class="lr-button lr-button-primary" href="{{ 'community/contributing/' | url }}">提交内容 <span aria-hidden="true">→</span></a>
+      <a class="lr-button lr-button-secondary" href="{{ issues }}">认领选题 <span aria-hidden="true">↗</span></a>
       <a class="lr-button lr-button-secondary" href="{{ config.repo_url }}/discussions">参与讨论 <span aria-hidden="true">↗</span></a>
     </div>
   </section>
 
   <div class="lr-colophon">
     <div class="lr-colophon-brand">
-      <span>肖家军学习小组 · 课题组成员共建的学习与研究资料库</span>
+      <span>东南大学大模型逻辑推理学习小组 · 成员共建的学习与研究资料库</span>
     </div>
     <a href="{{ 'community/license/' | url }}">开放内容与署名约定 ↗</a>
   </div>

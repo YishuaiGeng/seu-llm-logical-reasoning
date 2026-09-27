@@ -1,5 +1,5 @@
 site_name: SEU 大模型逻辑推理知识库
-site_description: 东南大学肖家军学习小组共建的大模型逻辑推理知识库。逻辑基础、论文共读、实践教程与组会记录。
+site_description: 东南大学大模型逻辑推理学习小组共建的知识库，涵盖逻辑基础、论文阅读、实践教程与组会记录。
 site_url: https://yishuaigeng.github.io/seu-llm-logical-reasoning/
 repo_url: https://github.com/YishuaiGeng/seu-llm-logical-reasoning
 repo_name: YishuaiGeng/seu-llm-logical-reasoning
@@ -171,5 +171,7 @@ nav:
       - 许可与署名: community/license.md
       - 行为准则: community/code-of-conduct.md
       - 安全与隐私: community/security.md
+      - 维护手册: community/maintainers.md
       - 维护与发布: community/maintenance.md
+      - 更新记录: community/changelog.md
       - 附件规范: assets/README.md

@@ -2,7 +2,7 @@
 title: 用 Z3 检查有效性与反例
 type: tutorial
 authors: [SEU LLM Logical Reasoning contributors]
-status: review
+status: stable
 created: 2026-09-27
 stage: logic
 order: 2

@@ -2,6 +2,8 @@ cff-version: 1.2.0
 message: 引用本知识库时，请同时注明具体页面标题、链接与访问日期或提交哈希。
 title: SEU 大模型逻辑推理知识库 (SEU LLM Logical Reasoning Knowledge Base)
 type: dataset
+version: 1.0.0
+date-released: 2026-09-27
 authors:
   - name: SEU LLM Logical Reasoning contributors
 repository-code: https://github.com/YishuaiGeng/seu-llm-logical-reasoning
