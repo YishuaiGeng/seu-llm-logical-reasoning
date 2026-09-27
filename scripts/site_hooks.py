@@ -552,7 +552,7 @@ def member_card(member, page):
     else:
         avatar = f'<span aria-hidden="true">{esc(initials(member["name"]))}</span>'
     english = f' <span class="lr-member__en">{esc(member["name_en"])}</span>' if member.get("name_en") else ""
-    position = " · ".join(esc(x) for x in (member.get("position"), f'{member["since"]} 年加入' if member.get("since") else None) if x)
+    position = " · ".join(esc(x) for x in (member.get("position"), member.get("cohort")) if x)
     role = f'<span class="lr-chip lr-chip--type">{esc(member["role"])}</span>' if member.get("role") else ""
     tags = "".join(f"<li>{esc(t)}</li>" for t in member.get("research") or [])
     links = []
