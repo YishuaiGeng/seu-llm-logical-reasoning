@@ -1,0 +1,17 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="lr-404">
+  <div class="lr-derivation lr-derivation--invalid" role="figure" aria-label="推导：由 页面存在 推出 可以访问（无效）">
+    <div class="lr-derivation__premises"><span>链接 → 页面</span><span>链接</span></div>
+    <div class="lr-derivation__rule"><span>404 · 前提不成立</span></div>
+    <div class="lr-derivation__conclusion"><span class="lr-derivation__therefore">⊭</span> 页面</div>
+  </div>
+  <h1>这一页暂时找不到</h1>
+  <p>链接可能已经失效，或者内容移动到了新的位置。可以试试顶部搜索，或者从下面的入口重新出发。</p>
+  <div class="lr-404__actions">
+    <a class="md-button md-button--primary" href="{{ config.site_url or '/' }}">返回首页</a>
+    <a class="md-button" href="{{ config.site_url }}getting-started/">开始学习</a>
+    <a class="md-button" href="{{ config.repo_url }}/issues/new?template=problem.yml">报告失效链接</a>
+  </div>
+</div>
+{% endblock %}

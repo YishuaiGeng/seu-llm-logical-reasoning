@@ -11,11 +11,15 @@
 | 分享操作经验 | [教程模板](../../templates/tutorial.md) |
 | 归档一次组会 | [组会模板](../../templates/meeting.md) |
 | 修正文档或链接 | [贡献指南](../../CONTRIBUTING.md) |
+| 认领一篇论文 | [候选论文清单](../papers/README.md#candidates) |
+| 对某一页提问或补充 | 页面底部的“讨论与评论” |
 | 推荐论文或讨论问题 | [GitHub Discussions](https://github.com/YishuaiGeng/seu-llm-logical-reasoning/discussions) |
 
 ## 一次贡献如何进入知识库
 
-**创建分支 → 使用模板 → 提交 PR → 同伴审阅 → 合并发布。**
+**创建分支 → 使用模板新建一个文件 → 提交 PR → 自动检查与同伴审阅 → 合并发布。**
+
+导航、栏目索引、学习路线和首页统计都由页面 frontmatter 自动生成，贡献者不需要修改网站配置。
 
 尚未写完的内容可以提交 Draft PR。最终答案、原文主张、自己的理解与未验证假设应清楚区分。审阅关注可读性、来源与证据，不要求每篇笔记都成为完整论文。
 

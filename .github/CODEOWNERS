@@ -1,0 +1,8 @@
+# 站点工程与协作配置由维护者审阅；内容目录由任意组员互审，不指定所有者。
+/.github/        @YishuaiGeng
+/scripts/        @YishuaiGeng
+/overrides/      @YishuaiGeng
+/mkdocs.yml      @YishuaiGeng
+/requirements.txt @YishuaiGeng
+/docs/stylesheets/ @YishuaiGeng
+/docs/javascripts/ @YishuaiGeng

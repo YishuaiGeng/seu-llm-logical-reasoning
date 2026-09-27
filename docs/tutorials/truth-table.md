@@ -1,8 +1,20 @@
+---
+title: 用真值表检查一个推理
+type: tutorial
+authors: [SEU LLM Logical Reasoning contributors]
+status: stable
+created: 2026-09-10
+stage: logic
+order: 1
+tags: [逻辑基础, Python, 有效性]
+summary: 枚举赋值，验证肯定前件并找到肯定后件的反例
+difficulty: 入门
+environment: Python 3.10+ · 仅标准库
+verified: verified
+verified_on: 仓库 CI（Ubuntu · Python 3.12）每次提交运行
+---
+
 # 用真值表检查一个推理
-
-作者：SEU LLM Logical Reasoning contributors
-
-难度：入门 · 环境：Python 3.10+ · 依赖：仅标准库
 
 ## 你会完成什么
 
@@ -50,4 +62,4 @@ Self-checks: passed
 
 枚举对 `n` 个变量需要检查至多 `2^n` 个赋值，不适合直接扩展到很大的公式。本示例没有自然语言解析、量词、概率或因果语义；逻辑检查的可靠性依赖于正确的形式化。
 
-更复杂的任务可进一步了解 [Z3](https://github.com/Z3Prover/z3) 等求解器，并明确其逻辑理论和输入约定。
+更复杂的任务可以使用求解器：下一篇[用 Z3 检查有效性与反例](z3-validity.md)把同样的问题交给 Z3，并扩展到一阶逻辑。
