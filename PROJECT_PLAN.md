@@ -20,9 +20,10 @@
 | `overrides/` | 首页、评论区、页脚与 404 模板 |
 | `docs/stylesheets/`、`docs/javascripts/` | 自定义视觉样式、本地打包的 KaTeX |
 | `docs/assets/brand/` | 项目横幅与东南大学校徽 |
+| `data/members.yml`、`data/publications.yml` | 小组成员与研究成果数据，分别生成“小组成员”“研究成果”页面与首页相应区块 |
 | `includes/abbreviations.md` | 全站缩写悬停提示 |
 | `scripts/site_hooks.py` | 发布根目录指南、模板与示例说明；根据 frontmatter 生成导航、栏目索引、学习路线、首页数据、元信息卡片与推导块 |
-| `scripts/check_content.py` | 校验内容页 frontmatter |
+| `scripts/check_content.py` | 校验内容页 frontmatter 与成员、成果数据 |
 | `scripts/check_site.py` | 校验构建后的站内链接与锚点 |
 | `scripts/run_examples.py` | 运行全部 `examples/*/check_*.py` 自检 |
 | `mkdocs.yml` | 固定导航、主题、主题目录与学习阶段、评论区配置 |

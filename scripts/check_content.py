@@ -1,4 +1,4 @@
-"""Validate frontmatter of notes, papers, tutorials and meetings.
+"""Validate content frontmatter and the member / publication data files.
 
 Run before `mkdocs build`. Requires MkDocs (for its YAML frontmatter parser).
 SPDX-License-Identifier: MIT
@@ -6,12 +6,15 @@ SPDX-License-Identifier: MIT
 
 import datetime as dt
 import re
+import sys
 from pathlib import Path
 
 import yaml
 from mkdocs.utils.meta import get_data
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from site_hooks import PUB_LINKS, PUB_STATUS, PUB_TYPES  # noqa: E402
 DOCS = ROOT / "docs"
 TYPES = {"notes": "note", "papers": "paper", "tutorials": "tutorial", "meetings": "meeting"}
 STATUS = {"draft", "review", "stable"}
@@ -105,9 +108,64 @@ def check(path, stages, topics):
     return [f"{relative}: {problem}" for problem in problems]
 
 
+def check_members():
+    path = ROOT / "data" / "members.yml"
+    data = yaml.safe_load(path.read_text()) or {}
+    groups = {g.get("id") for g in data.get("groups") or []}
+    errors = []
+    for index, member in enumerate(data.get("members") or [], 1):
+        where = f"data/members.yml 第 {index} 位成员"
+        if not isinstance(member, dict) or not member.get("name"):
+            errors.append(f"{where}: 缺少 `name`")
+            continue
+        where += f"（{member['name']}）"
+        if member.get("group") not in groups:
+            errors.append(f"{where}: `group` 应为 {sorted(g for g in groups if g)} 之一")
+        if member.get("research") and not isinstance(member["research"], list):
+            errors.append(f"{where}: `research` 应为列表")
+        if member.get("avatar") and not (ROOT / "docs" / member["avatar"]).is_file():
+            errors.append(f"{where}: 头像文件 docs/{member['avatar']} 不存在")
+        for field in ("homepage", "scholar"):
+            if member.get(field) and not str(member[field]).startswith(("http://", "https://")):
+                errors.append(f"{where}: `{field}` 应为完整网址")
+    return errors
+
+
+def check_publications():
+    path = ROOT / "data" / "publications.yml"
+    data = yaml.safe_load(path.read_text()) or {}
+    errors = []
+    for index, pub in enumerate(data.get("publications") or [], 1):
+        where = f"data/publications.yml 第 {index} 项"
+        if not isinstance(pub, dict):
+            errors.append(f"{where}: 格式错误")
+            continue
+        public = pub.get("public", True)
+        if pub.get("title"):
+            where += f"（{str(pub['title'])[:30]}）"
+        elif public:
+            errors.append(f"{where}: public 为 true 时必须填写 `title`")
+        if pub.get("status") not in PUB_STATUS:
+            errors.append(f"{where}: `status` 应为 {list(PUB_STATUS)} 之一")
+        if pub.get("type") and pub["type"] not in PUB_TYPES:
+            errors.append(f"{where}: `type` 应为 {list(PUB_TYPES)} 之一")
+        if not re.match(r"^\d{4}-\d{2}(-\d{2})?$", str(pub.get("date", ""))):
+            errors.append(f"{where}: `date` 应为 YYYY-MM 或 YYYY-MM-DD")
+        if pub.get("status") != "preparing" and not pub.get("venue"):
+            errors.append(f"{where}: 除准备中外需填写 `venue`")
+        if public and pub.get("authors") and not isinstance(pub["authors"], list):
+            errors.append(f"{where}: `authors` 应为列表")
+        for key, url in (pub.get("links") or {}).items():
+            if key not in PUB_LINKS:
+                errors.append(f"{where}: 未知链接类型 `{key}`，可用 {list(PUB_LINKS)}")
+            elif url and not str(url).startswith(("http://", "https://")):
+                errors.append(f"{where}: 链接 `{key}` 应为完整网址")
+    return errors
+
+
 def main():
     stages, topics = known("stages"), known("topics")
-    errors, checked = [], 0
+    errors, checked = check_members() + check_publications(), 0
     for section in TYPES:
         for path in sorted((DOCS / section).rglob("*.md")):
             if path.name in {"README.md", "index.md"}:
@@ -116,7 +174,7 @@ def main():
             errors += check(path, stages, topics)
     if errors:
         raise SystemExit("\n".join(errors))
-    print(f"Checked frontmatter of {checked} content pages: passed")
+    print(f"Checked frontmatter of {checked} content pages and team data: passed")
 
 
 if __name__ == "__main__":

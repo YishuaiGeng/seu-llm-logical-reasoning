@@ -1,0 +1,30 @@
+# 研究成果与投稿状态
+#
+# 网站“研究成果”页面由本文件生成，按 date 倒序展示。
+# 仅在全体作者同意后登记；投稿会议或期刊要求匿名评审时，请将 public 设为 false，
+# 页面只显示状态、类型、投稿去向与日期，不显示题目、作者与链接。
+#
+# 字段说明：
+#   title    public 为 true 时必填，论文题目
+#   authors  作者列表，与 data/members.yml 中姓名一致的成员会加粗显示；可用 * 标注共同一作
+#   venue    投稿或发表的会议、期刊，例如“ACL 2027”；status 为 preparing 时可省略
+#   type     conference 会议 / journal 期刊 / workshop 研讨会 / preprint 预印本 / other 其他
+#   status   published 已发表 / accepted 已录用 / preprint 预印本 / revision 修改中 /
+#            under-review 审稿中 / submitted 已投稿 / preparing 准备中
+#   date     最近一次状态变化的日期，YYYY-MM 或 YYYY-MM-DD
+#   public   可选，默认 true；false 时隐藏题目、作者与链接
+#   links    可选，paper / arxiv / code / slides / project
+#   note     可选，一句补充说明，例如“口头报告”
+#
+# 示例（复制后删去行首的 #）：
+#  - title: 论文题目
+#    authors: [张三, 李四, 王五]
+#    venue: EMNLP 2026
+#    type: conference
+#    status: accepted
+#    date: 2026-08
+#    links:
+#      arxiv: https://arxiv.org/abs/xxxx.xxxxx
+#      code: https://github.com/xxx/xxx
+
+publications: []

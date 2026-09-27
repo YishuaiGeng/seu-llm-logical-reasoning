@@ -1,0 +1,38 @@
+# 小组成员
+#
+# 网站“小组成员”页面由本文件生成。每位成员一项，按 groups 的顺序分组展示。
+# 字段说明：
+#   name      必填，姓名
+#   group     必填，所属分组，取 groups 中的 id
+#   name_en   可选，英文名
+#   position  可选，身份，例如“博士研究生”“硕士研究生”
+#   since     可选，加入年份
+#   role      可选，在知识库中的角色，例如“知识库负责人”“栏目维护人”
+#   research  可选，研究方向列表
+#   homepage / github / scholar  可选，个人主页、GitHub 用户名、Google Scholar 链接
+#   email     可选，公开邮箱（请确认本人愿意公开）
+#   avatar    可选，头像路径，例如 assets/team/zhang-san.jpg（文件放在 docs/assets/team/）
+#
+# 示例（复制后删去行首的 #）：
+#  - name: 张三
+#    name_en: San Zhang
+#    group: phd
+#    position: 博士研究生
+#    since: 2024
+#    role: 栏目维护人 · 推理方法
+#    research: [神经符号推理, 大模型评测]
+#    github: zhangsan
+
+groups:
+  - id: faculty
+    title: 指导教师
+  - id: phd
+    title: 博士研究生
+  - id: master
+    title: 硕士研究生
+  - id: undergrad
+    title: 本科生
+  - id: alumni
+    title: 已毕业成员
+
+members: []
