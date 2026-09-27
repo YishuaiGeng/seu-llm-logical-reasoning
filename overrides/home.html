@@ -19,6 +19,7 @@
         <div><dt>{{ label }}</dt><dd>{{ value }}</dd></div>
         {% endfor %}
         <div><dt>学习阶段</dt><dd>{{ catalog.stages | length }}</dd></div>
+        {% if catalog.members %}<div><dt>小组成员</dt><dd>{{ catalog.members }}</dd></div>{% endif %}
       </dl>
     </div>
     <div class="lr-proof" role="img" aria-label="肯定前件推理示意：由 P 蕴涵 Q 和 P 为真，推出 Q 为真。">
@@ -106,6 +107,25 @@
         <span class="lr-recent-title">{{ item.title }}</span>
         <span class="lr-recent-summary">{{ item.summary }}</span>
         <time>{{ item.updated }}</time>
+      </a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if catalog.publications %}
+  <section class="lr-section" aria-labelledby="outputs-title">
+    <div class="lr-section-heading">
+      <div><span class="lr-eyebrow">近期成果 · PUBLICATIONS</span><h2 id="outputs-title">论文发表与投稿进展。</h2></div>
+      <p><a href="{{ 'team/publications/' | url }}">查看全部成果 →</a></p>
+    </div>
+    <ul class="lr-recent lr-outputs">
+      {% for item in catalog.publications %}
+      <li><a href="{{ 'team/publications/' | url }}">
+        <span class="lr-pub-status lr-pub-status--{{ item.status }}">{{ item.label }}</span>
+        <span class="lr-recent-title">{{ item.title }}</span>
+        <span class="lr-recent-summary">{{ item.venue }}</span>
+        <time>{{ item.date }}</time>
       </a></li>
       {% endfor %}
     </ul>

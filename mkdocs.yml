@@ -60,6 +60,10 @@ plugins:
   - tags
 hooks:
   - scripts/site_hooks.py
+watch:
+  - data
+  - templates
+  - includes
 markdown_extensions:
   - abbr
   - admonition
@@ -99,6 +103,7 @@ extra_css:
   - stylesheets/extra.css
 extra_javascript:
   - javascripts/katex.js
+  - javascripts/publications.js
   - javascripts/vendor/katex/katex.min.js
   - javascripts/vendor/katex/contrib/auto-render.min.js
 extra:
@@ -155,6 +160,9 @@ nav:
   - 论文阅读: papers/README.md
   - 实践教程: tutorials/README.md
   - 组会记录: meetings/README.md
+  - 关于小组:
+      - 小组成员: team/members.md
+      - 研究成果: team/publications.md
   - 资源导航:
       - resources/README.md
       - 术语表: resources/glossary.md

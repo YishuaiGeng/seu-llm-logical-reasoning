@@ -12,6 +12,8 @@
 | 组会 | `docs/meetings/2026/2026-09-10.md` |
 | 示例代码 | `examples/logic-evaluation/` |
 
+小组成员与研究成果不使用 Markdown 文件，分别登记在 `data/members.yml` 与 `data/publications.yml` 中，字段说明见文件开头的注释与[维护手册](docs/community/maintainers.md)。
+
 以上仅为命名示例，不表示已有对应论文或会议。主题笔记按 `docs/notes/<主题目录>/` 归档，主题目录列表见 `mkdocs.yml` 的 `extra.knowledge.topics`。论文目录年份按论文发表或预印本年份组织；组会按实际发生日期组织，同日多场会议可加主题后缀。
 
 文件名使用简短英文小写和连字符，正文以中文为主，保留必要英文术语。署名写在 frontmatter 的 `authors` 中；更新已有笔记时保留原作者，并把自己加入 `contributors`。

@@ -44,7 +44,7 @@
 | --- | --- |
 | 每次组会后 | 轮值记录人提交组会记录；行动项同步到 Issues 并指定负责人。 |
 | 每月 1 日 | `External link check` 自动检查外部链接，发现失效时自动创建 Issue，由栏目维护人修复或替换链接。 |
-| 每月 | 检查候选论文清单：已完成精读的条目从清单中删除，新的推荐从 Discussions 中筛选补充，并核实题名、作者与年份。 |
+| 每月 | 核对研究成果页的投稿状态；检查候选论文清单：已完成精读的条目从清单中删除，新的推荐从 Discussions 中筛选补充，并核实题名、作者与年份。 |
 | 每学期 | 回顾学习路线与主题划分，确认成员权限，清理已离组成员的写权限，并视情况发布新版本。 |
 
 ## 常见维护操作
@@ -53,6 +53,16 @@
 
 1. 负责人在 Settings → Collaborators 中邀请成员，授予 Write 权限。
 2. 请新成员阅读[新成员指南](../getting-started/README.md)与[贡献指南](../../CONTRIBUTING.md)，从一篇候选论文或一个小主题开始。
+
+### 更新小组成员
+
+编辑 [`data/members.yml`](https://github.com/YishuaiGeng/seu-llm-logical-reasoning/blob/main/data/members.yml)，每位成员一项，文件开头列出了全部字段。新成员加入时添加条目；成员毕业后把 `group` 改为 `alumni`，不要直接删除。头像放在 `docs/assets/team/`，邮箱等联系方式需本人同意后填写。
+
+### 登记研究成果
+
+编辑 [`data/publications.yml`](https://github.com/YishuaiGeng/seu-llm-logical-reasoning/blob/main/data/publications.yml)。论文每次状态变化（投稿、审稿中、修改、录用、发表）都更新 `status` 与 `date`。登记前须经全体作者同意；匿名评审期间把 `public` 设为 `false`，页面只显示投稿去向与状态。录用或发表后补充 `links`，并把 `public` 改回 `true`。
+
+两个文件都会由 CI 校验，填写错误时检查结果会指出第几项的哪个字段。
 
 ### 新增主题目录或学习阶段
 

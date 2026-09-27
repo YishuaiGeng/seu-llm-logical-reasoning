@@ -5,6 +5,8 @@
 - Expand the navigation and section indexes automatically, so adding a
   note, paper, tutorial or meeting only requires adding one Markdown file.
 - Render page metadata cards, the learning roadmap and derivation blocks.
+- Render the member and publication pages from data/members.yml and
+  data/publications.yml.
 
 SPDX-License-Identifier: MIT
 """
@@ -18,6 +20,7 @@ import subprocess
 from pathlib import Path
 from urllib.parse import urlsplit
 
+import yaml
 from mkdocs.structure.files import File, InclusionLevel
 from mkdocs.utils.meta import get_data
 
@@ -56,7 +59,16 @@ READING_LABELS = {"skim": "初读", "close": "精读", "reproduced": "已复现�
 
 LINK = re.compile(r"(!?\[[^\]]*\]\()([^\s)]+)(\))")
 FENCE = re.compile(r"^(\s*)(`{3,}|~{3,})\s*([\w-]*)")
-MARKER = re.compile(r"<!--\s*lr:(index|roadmap)\s*(\w*)\s*-->")
+MARKER = re.compile(r"<!--\s*lr:(index|roadmap|members|publications)\s*(\w*)\s*-->")
+
+DATA = ROOT / "data"
+# 投稿状态按展示顺序排列；键名用于 data/publications.yml 的 status 字段。
+PUB_STATUS = {
+    "published": "已发表", "accepted": "已录用", "preprint": "预印本", "revision": "修改中",
+    "under-review": "审稿中", "submitted": "已投稿", "preparing": "准备中",
+}
+PUB_TYPES = {"conference": "会议论文", "journal": "期刊论文", "workshop": "研讨会论文", "preprint": "预印本", "other": "其他"}
+PUB_LINKS = {"paper": "论文", "arxiv": "arXiv", "code": "代码", "slides": "报告", "project": "项目主页"}
 
 CATALOG = {}
 
@@ -176,6 +188,8 @@ def on_page_markdown(markdown, page, config, files):
     source = SOURCES.get(uri, f"docs/{uri}")
     if uri in SOURCES:
         page.edit_url = f"{REPO}/edit/main/{source}"
+    if page.meta.get("edit_source"):
+        page.edit_url = f"{REPO}/edit/main/{page.meta['edit_source']}"
 
     wrapped_template = uri.startswith("templates/") and Path(uri).stem in TEMPLATES
     if not wrapped_template:
@@ -232,6 +246,11 @@ def build_catalog(files, config):
             "summary": e["meta"].get("summary", ""),
             "updated": e["updated"].isoformat() if e["updated"] else "",
         } for e in recent],
+        "members": len(load_data("members").get("members") or []),
+        "publications": [{
+            "title": pub_title(p), "venue": p.get("venue", ""), "date": str(p.get("date", "")),
+            "status": p.get("status"), "label": PUB_STATUS.get(p.get("status"), ""),
+        } for p in sorted_publications()[:3]],
         "stages": [{
             "title": stage["title"],
             "count": sum(e["meta"].get("stage") == stage["id"] for e in entries),
@@ -414,6 +433,10 @@ def metadata_card(entry, markdown):
 
 def render_marker(match, page, config):
     kind, argument = match.groups()
+    if kind == "members":
+        return render_members(page)
+    if kind == "publications":
+        return render_publications()
     if kind == "roadmap":
         return render_roadmap(page, config)
     return render_index(argument, page, config)
@@ -485,3 +508,128 @@ def render_roadmap(page, config):
             f'<ul>{links}</ul></div></li>'
         )
     return f'<ol class="lr-roadmap">{"".join(items)}</ol>\n'
+
+
+# ------------------------------------------------------ members & outputs
+
+def load_data(name):
+    path = DATA / f"{name}.yml"
+    return (yaml.safe_load(path.read_text()) or {}) if path.exists() else {}
+
+
+def member_names():
+    names = set()
+    for member in load_data("members").get("members") or []:
+        names.update(str(member[k]) for k in ("name", "name_en") if member.get(k))
+    return names
+
+
+def initials(name):
+    name = str(name).strip()
+    if re.match(r"[一-鿿]", name):
+        return name[0]
+    return "".join(part[0] for part in name.split()[:2]).upper()
+
+
+def render_members(page):
+    data = load_data("members")
+    groups, members = data.get("groups") or [], data.get("members") or []
+    if not members:
+        return '!!! note "成员信息"\n\n    成员信息正在整理中。\n'
+    blocks = []
+    known = [g["id"] for g in groups]
+    for group in groups + [{"id": g, "title": "其他成员"} for g in sorted({m.get("group") for m in members} - set(known))]:
+        people = [m for m in members if m.get("group") == group["id"]]
+        if people:
+            cards = "".join(member_card(m, page) for m in people)
+            blocks.append(f'## {group["title"]} {{#{group["id"]}}}\n\n<div class="lr-members">{cards}</div>\n')
+    return "\n".join(blocks)
+
+
+def member_card(member, page):
+    if member.get("avatar"):
+        avatar = f'<img src="{esc(relative_url(member["avatar"], page.url))}" alt="{esc(member["name"])}" loading="lazy">'
+    else:
+        avatar = f'<span aria-hidden="true">{esc(initials(member["name"]))}</span>'
+    english = f' <span class="lr-member__en">{esc(member["name_en"])}</span>' if member.get("name_en") else ""
+    position = " · ".join(esc(x) for x in (member.get("position"), member.get("cohort")) if x)
+    role = f'<span class="lr-chip lr-chip--type">{esc(member["role"])}</span>' if member.get("role") else ""
+    tags = "".join(f"<li>{esc(t)}</li>" for t in member.get("research") or [])
+    links = []
+    if member.get("homepage"):
+        links.append(f'<a href="{esc(member["homepage"])}">个人主页</a>')
+    if member.get("github"):
+        links.append(f'<a href="https://github.com/{esc(member["github"])}">GitHub</a>')
+    if member.get("scholar"):
+        links.append(f'<a href="{esc(member["scholar"])}">Google Scholar</a>')
+    if member.get("email"):
+        links.append(f'<span>{esc(member["email"])}</span>')
+    return (
+        f'<article class="lr-member"><div class="lr-member__avatar">{avatar}</div><div class="lr-member__body">'
+        f'<h3>{esc(member["name"])}{english}</h3>'
+        + (f'<p class="lr-member__position">{position}</p>' if position else "")
+        + (f'<div class="lr-member__role">{role}</div>' if role else "")
+        + (f'<ul class="lr-member__tags">{tags}</ul>' if tags else "")
+        + (f'<p class="lr-member__links">{" · ".join(links)}</p>' if links else "")
+        + "</div></article>"
+    )
+
+
+def pub_date(pub):
+    value = str(pub.get("date", ""))
+    return value if re.match(r"^\d{4}-\d{2}(-\d{2})?$", value) else "0000-00"
+
+
+def sorted_publications():
+    return sorted(load_data("publications").get("publications") or [], key=pub_date, reverse=True)
+
+
+def pub_title(pub):
+    return pub.get("title", "") if pub.get("public", True) else "论文（题目暂不公开）"
+
+
+def render_publications():
+    items = sorted_publications()
+    if not items:
+        return '!!! note "研究成果"\n\n    暂无公开的研究成果。成果在获得全体作者同意后发布于此。\n'
+    members = member_names()
+    counts = {status: sum(p.get("status") == status for p in items) for status in PUB_STATUS}
+    filters = '<button type="button" class="lr-pub-filter is-active" data-filter="all">全部 <span>' + str(len(items)) + "</span></button>" + "".join(
+        f'<button type="button" class="lr-pub-filter" data-filter="{status}">{label} <span>{counts[status]}</span></button>'
+        for status, label in PUB_STATUS.items() if counts[status]
+    )
+    years = {}
+    for pub in items:
+        years.setdefault(pub_date(pub)[:4], []).append(pub)
+    sections = []
+    for year, pubs in years.items():
+        rows = "".join(publication_item(p, members) for p in pubs)
+        heading = year if year != "0000" else "日期待定"
+        sections.append(f'<section class="lr-pub-year"><h2 class="lr-pub-year__title">{heading}</h2><ol class="lr-pubs">{rows}</ol></section>')
+    return f'<div class="lr-pub-filters" role="group" aria-label="按状态筛选">{filters}</div>\n' + "".join(sections) + "\n"
+
+
+def publication_item(pub, members):
+    status = pub.get("status", "")
+    public = pub.get("public", True)
+    authors = ""
+    if public and pub.get("authors"):
+        names = [f"<strong>{esc(a)}</strong>" if str(a).rstrip("*†") in members else esc(a) for a in as_list(pub["authors"])]
+        authors = f'<p class="lr-pub__authors">{", ".join(names)}</p>'
+    links = " · ".join(
+        f'<a href="{esc(url)}">{PUB_LINKS.get(key, key)}</a>' for key, url in (pub.get("links") or {}).items() if url
+    ) if public else ""
+    meta = [f'<span class="lr-pub-status lr-pub-status--{esc(status)}">{PUB_STATUS.get(status, status)}</span>']
+    if pub.get("type"):
+        meta.append(f"<span>{PUB_TYPES.get(pub['type'], pub['type'])}</span>")
+    if pub.get("date"):
+        meta.append(f"<time>{esc(pub['date'])}</time>")
+    return (
+        f'<li class="lr-pub" data-status="{esc(status)}"><div class="lr-pub__meta">{"".join(meta)}</div>'
+        f'<h3 class="lr-pub__title{"" if public else " lr-pub__title--private"}">{esc(pub_title(pub))}</h3>'
+        + authors
+        + (f'<p class="lr-pub__venue">{esc(pub["venue"])}</p>' if pub.get("venue") else "")
+        + (f'<p class="lr-pub__links">{links}</p>' if links else "")
+        + (f'<p class="lr-pub__note">{esc(pub["note"])}</p>' if pub.get("note") else "")
+        + "</li>"
+    )
